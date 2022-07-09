@@ -1,9 +1,13 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const app = express()
+const router = express.Router();
+const bloodDonation = require('../blood-donation/blood-donation-routes')
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+
+router.use('/api/blood', bloodDonation)
+
+router.use((req, res)=>{
+  res.status(404).send("Url Not Found")
+})
 
 module.exports = router;

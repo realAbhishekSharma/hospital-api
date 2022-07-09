@@ -8,6 +8,8 @@ var app = require('../app');
 var debug = require('debug')('hospital-api:server');
 var http = require('http');
 
+
+// Database Setup
 /**
  * Get port from environment and store in Express.
  */
