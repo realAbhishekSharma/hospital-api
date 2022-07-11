@@ -17,7 +17,7 @@ class SqlCommand{
             this.checkExistingUser(donerDetails.PHONE, result => {
 
                 if (!result) {
-                    const addQuery = "INSERT INTO blood_doner(`doner_name`, `email`, `phone`, `district`, `zone`, `doner_status`, `weight`, `blood_group`, `pin`) VALUES('" + donerDetails.DONER_NAME + "', '" + donerDetails.EMAIL + "', '" + donerDetails.PHONE + "', '" + donerDetails.DISTRICT + "', '" + donerDetails.ZONE + "', " + donerDetails.DONER_STATUS + ", " + donerDetails.WEIGHT + ", '" + donerDetails.BLOOD_GROUP + "', '" + donerDetails.PIN + "')"
+                    const addQuery = "INSERT INTO BLOOD_DONER(`doner_name`, `email`, `phone`, `district`, `zone`, `doner_status`, `weight`, `blood_group`, `pin`) VALUES('" + donerDetails.DONER_NAME + "', '" + donerDetails.EMAIL + "', '" + donerDetails.PHONE + "', '" + donerDetails.DISTRICT + "', '" + donerDetails.ZONE + "', " + donerDetails.DONER_STATUS + ", " + donerDetails.WEIGHT + ", '" + donerDetails.BLOOD_GROUP + "', '" + donerDetails.PIN + "')"
                     connection.query(addQuery, (error, result) => {
                         console.log(error)
 
