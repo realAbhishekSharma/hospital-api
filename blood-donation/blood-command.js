@@ -131,6 +131,18 @@ class SqlCommand{
         }
 
     }
+
+    getHospital(callback){
+        const checkQuery = "SELECT * FROM hospital"
+        const resul = connection.query(checkQuery, (err,result)=>{
+            if (result){
+                callback(result)
+            }else {
+                callback(false)
+            }
+
+        })
+    }
 }
 
 module.exports = new SqlCommand()
