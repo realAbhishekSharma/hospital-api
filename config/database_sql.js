@@ -2,10 +2,10 @@ const express = require('express')
 const mysql = require('mysql2')
 
 const connection = mysql.createConnection({
-    host: 'http://hospital-env.eba-da4xbhmu.us-east-1.elasticbeanstalk.com',
+    host: 'localhost',
     user: 'root',
-    password: 'chek123456',
-    database: 'hospital'
+    password: 'root',
+    database: 'mydata'
 })
 
 connection.connect((err) =>{
