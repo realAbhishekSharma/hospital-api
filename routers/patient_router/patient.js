@@ -11,7 +11,7 @@ routes.post("/login", Patient.authenticatePatient,(req, res)=>{
         res.status(200).json({UserName:req.body.UserName, Password:req.body.Password, Token: token})
     })
 })
-routes.use(VerifyToken)
+// routes.use(VerifyToken)
 
 routes.use(patientUpdateRoutes, patientPostRoutes, patientGetRoutes)
 

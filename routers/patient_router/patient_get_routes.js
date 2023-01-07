@@ -38,4 +38,12 @@ routes.get('/getDoctors',  (req, res)=>{
 
 })
 
+
+routes.get('/getReport',(req,res)=>{
+    const patient_id = req.body.patient_id
+    const query = "select "
+})
+
+
+
 module.exports = routes;

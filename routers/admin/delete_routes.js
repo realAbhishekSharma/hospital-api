@@ -66,4 +66,52 @@ router.delete('/delete-hospital',(req,res)=>{
     })
 })
 
+router.delete('/delete-lab',(req,res)=>{
+    const id = req.body.id
+    console.log(req.body)
+    const query = `DELETE FROM lab where id = ${id};`
+    console.log(query)
+
+    connection.query(query, (err,rows)=>{
+        if (err) throw err
+        else{
+        console.log(rows)
+        res.json({ status: true, message: "data deleted succesfully", data : req.body})
+        
+        }
+    })
+})
+
+router.delete('/delete-role',(req,res)=>{
+    const id = req.body.id
+    console.log(req.body)
+    const query = `DELETE FROM role where id = ${id};`
+    console.log(query)
+
+    connection.query(query, (err,rows)=>{
+        if (err) throw err
+        else{
+        console.log(rows)
+        res.json({ status: true, message: "data deleted succesfully", data : req.body})
+        
+        }
+    })
+})
+
+router.delete('/delete-employee',(req,res)=>{
+    const id = req.body.id
+    console.log(req.body)
+    const query = `DELETE FROM employees where id = ${id};`
+    console.log(query)
+
+    connection.query(query, (err,rows)=>{
+        if (err) throw err
+        else{
+        console.log(rows)
+        res.json({ status: true, message: "data deleted succesfully", data : req.body})
+        
+        }
+    })
+})
+
 module.exports = router

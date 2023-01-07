@@ -68,4 +68,36 @@ router.patch('/update-hospital',(req,res)=>{
     })
 })
 
+router.patch('/update-lab',(req,res)=>{
+    const id = req.body.id
+    const labName = req.body.labName
+    const query = `update lab set lab_name = "${labName}"  where id = ${id}`
+    console.log(query)
+
+    connection.query(query, (err,rows)=>{
+        if (err) throw err
+        else{
+        console.log(rows)
+        res.json({ status: true, message: "data updated succesfully", data : req.body})
+        
+        }
+    })
+})
+
+router.patch('/update-role',(req,res)=>{
+    const id = req.body.id
+    const roleName = req.body.roleName
+    const query = `update role set roleName = "${roleName}"  where id = ${id}`
+    console.log(query)
+
+    connection.query(query, (err,rows)=>{
+        if (err) throw err
+        else{
+        console.log(rows)
+        res.json({ status: true, message: "data updated succesfully", data : req.body})
+        
+        }
+    })
+})
+
 module.exports = router
