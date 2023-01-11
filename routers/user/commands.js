@@ -1,6 +1,7 @@
 const sqlConnection = require("../../config/database_sql")
 const jwt = require("jsonwebtoken");
 
+
 function checkUser(req, res, next){
     const username = req.body.username
     const query = "SELECT * FROM user where username = '"+username+"'"
@@ -39,7 +40,7 @@ function authentication(req,res,next){
 
 function authorization(req, res, next){
 
-    jwt.sign(req.user, process.env.JWT_SIGNATURE_TOKEN, {expiresIn: 600000}, (err, token)=>{
+    jwt.sign(req.user, process.env.JWT_SIGNATURE_TOKEN, {expiresIn: 1800}, (err, token)=>{
         res.json({ user:req.user ,Token: token})
     })
 
@@ -52,7 +53,7 @@ function verifyToken(req, res, next){
         return
     }
 
-    jwt.verify(token.split(" ")[1], process.env.JWT_SIGNATURE_TOKEN, {expiresIn: 600000}, (err, detail)=>{
+    jwt.verify(token.split(" ")[1], process.env.JWT_SIGNATURE_TOKEN, {expiresIn: 1800}, (err, detail)=>{
         if (!err){
             req.details = detail
             next()
@@ -62,6 +63,17 @@ function verifyToken(req, res, next){
     })
 }
 
+function hashOTP(req, res, next){
+    // jwt.sign(req.otp, process.env.JWT_SIGNATURE_TOKEN, {expiresIn: 10000}, (err,data)=>{
+    //
+    // })
+}
+
+function getCurrentDateTime(){
+    const date = new Date()
+    const month = date.getMonth() + 1
+    return date.getFullYear() + "-" + month + "-" + date.getDate() + " " + date.getHours() + "-" + date.getMinutes() + "-" + date.getSeconds()
+}
 
 
-module.exports = {checkUser, authentication, authorization,verifyToken}
+module.exports = {checkUser, authentication, authorization,verifyToken, getCurrentDateTime}

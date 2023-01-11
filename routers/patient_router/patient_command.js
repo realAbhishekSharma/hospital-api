@@ -7,7 +7,7 @@ class PatientCommand{
         if (req.body.nameValuePairs !== undefined){
             req.body = req.body.nameValuePairs
         }
-        const query = "SELECT p.patient_id, p.phone, p.password FROM patient_details AS p WHERE p.phone ='"+req.body.UserName+"' AND p.password = '"+req.body.Password+"'"
+        const query = "SELECT p.patient_id, p.phone, p.password FROM users AS p WHERE p.phone ='"+req.body.UserName+"' AND p.password = '"+req.body.Password+"'"
         // console.log(query)
         connection.query(query, (err, data)=>{
             if (data[0] != null){
@@ -36,12 +36,15 @@ function verifyPatient(req, res, next){
         if (!error){
 
             req.patient = data
+            console.log(data)
             next()
         }else {
             res.status(403).json({error: "Not_Authorized"})
         }
     })
+
+
+
 }
 
 module.exports.Patient = new PatientCommand()
-module.exports.VerifyToken = verifyPatient

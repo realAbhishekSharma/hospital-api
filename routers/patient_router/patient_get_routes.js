@@ -39,10 +39,83 @@ routes.get('/getDoctors',  (req, res)=>{
 })
 
 
-routes.get('/getReport',(req,res)=>{
-    const patient_id = req.body.patient_id
-    const query = "select "
+routes.get('/enroll-by-patient',(req,res)=>{
+    try {
+        const patientId = req.body.patient_id
+        const query = "SELECT srvcdpr.id as enroll_id, srvcdpr.patient_id, srvcdpr.service_name, srvcdpr.service_id, srvcdpr.department_name,srvcdpr.department_id ,doc.doctor_name, srvcdpr.doctor_id, srvcdpr.enroll_status, srvcdpr.enroll_open_date, srvcdpr.enroll_close_date, srvcdpr.created_date, srvcdpr.modified_date FROM (SELECT ews.id, ews.patient_id, ews.service_name, ews.service_id, d.department_name, ews.department_id, ews.doctor_id, ews.enroll_status, ews.enroll_open_date, ews.enroll_close_date, ews.created_date, ews.modified_date FROM (SELECT sr.id, sr.patient_id,s.service_name,sr.service_id, sr.department_id, sr.doctor_id, sr.enroll_status, sr.enroll_open_date, sr.enroll_close_date, sr.created_date, sr.modified_date  FROM (SELECT * FROM enroll WHERE enroll.patient_id = '" + patientId + "') as sr LEFT JOIN services s on sr.service_id = s.id) as ews LEFT JOIN departments d on ews.department_id = d.id) as srvcdpr LEFT JOIN doctors doc on srvcdpr.doctor_id = doc.id"
+
+        connection.query(query, (err, data) => {
+            if (err){
+                throw err
+                return
+            }
+            if (data[0] != null){
+                console.log("data "+data)
+                res.send(data)
+            }else {
+                res.status(404).send("empty.")
+            }
+
+        })
+    }catch (e){
+        console.log("error "+e.message)
+        res.send(e.message)
+    }
 })
+
+
+routes.get('/get-reports-by-enroll',(req,res)=>{
+    try {
+        const enrollId = req.body.enroll_id
+        console.log(enrollId)
+        const query = "SELECT dewlab.id, dewlab.enroll_id, dewlab.doctor_name, dewlab.refered_doctor_id, dewlab.emp_name, dewlab.test_emp_id, l.lab_name,dewlab.lab_id, dewlab.test_name, dewlab.test_description, dewlab.sample_date, dewlab.test_date, dewlab.created_date, dewlab.modified_date FROM (SELECT rwdoc.id, rwdoc.enroll_id, rwdoc.doctor_name, rwdoc.refered_doctor_id, e.emp_name,rwdoc.test_emp_id, rwdoc.lab_id, rwdoc.test_name, rwdoc.test_description, rwdoc.sample_date, rwdoc.test_date, rwdoc.created_date, rwdoc.modified_date FROM (SELECT rprt.id, rprt.enroll_id, d.doctor_name, rprt.refered_doctor_id, rprt.test_emp_id, rprt.lab_id,rprt.test_name, rprt.test_description, rprt.sample_date, rprt.test_date, rprt.created_date, rprt.modified_date FROM (SELECT * FROM reports r WHERE r.enroll_id = '" + enrollId + "') as rprt LEFT JOIN doctors d on rprt.refered_doctor_id = d.id) as rwdoc LEFT JOIN employees e on rwdoc.test_emp_id = e.id) as dewlab LEFT JOIN labs l on dewlab.lab_id = l.id"
+
+        connection.query(query, (err, data) => {
+            if (err){
+                throw err
+                return
+            }
+            if (data[0] != null){
+                console.log("data "+data)
+                res.send(data)
+            }else {
+                res.status(404).send("empty.")
+            }
+
+        })
+    }catch (e){
+        console.log("error "+e.message)
+        res.send(e.message)
+    }
+})
+
+
+
+routes.get('/get-report-by-patient',(req,res)=>{
+    try {
+        const patientId = req.body.patient_id
+        console.log(patientId)
+        const query = "SELECT r.id, r.enroll_id, r.refered_doctor_id, r.test_emp_id,r.lab_id, r.test_name, r.test_description, r.sample_date, r.test_date, r.created_date, r.modified_date  FROM reports r LEFT JOIN (SELECT * FROM enroll WHERE enroll.patient_id = '"+patientId+"') as et on et.id = r.enroll_id"
+
+        connection.query(query, (err, data) => {
+            if (err){
+                throw err
+                return
+            }
+            if (data[0] != null){
+                console.log("data "+data)
+                res.send(data)
+            }else {
+                res.status(404).send("empty.")
+            }
+
+        })
+    }catch (e){
+        console.log("error "+e.message)
+        res.send(e.message)
+    }
+})
+
 
 
 

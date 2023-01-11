@@ -53,17 +53,23 @@ router.post('/add-department' , (req , res) =>{
 
 
     router.post('/doctor_department', (req , res)=>{
-        const hospital_id = req.body.hospital_id
-        const doctor_id = req.body.doctor_id
-        const query = `select d.department_id from (select * from doctor_department where doctor_id = ${doctor_id} ) as a inner join (select * from hospital_department where hospital_id =${hospital_id}) as d on a.department_id=d.department_id`
-        connection.query(query, (err,rows)=>{
-            if (err) throw err
-            else{
-            console.log(rows)
-            res.send(rows)
-            
-            }
-        })
+        try {
+
+            const hospital_id = req.body.hospital_id
+            const doctor_id = req.body.doctor_id
+            const query = `select d.department_id from (select * from doctor_department where doctor_id = ${doctor_id} ) as a inner join (select * from hospital_department where hospital_id =${hospital_id}) as d on a.department_id=d.department_id`
+            connection.query(query, (err, rows) => {
+                if (err) throw err
+                else {
+                    console.log(rows)
+                    res.send(rows)
+
+                }
+            })
+        }catch (e){
+            console.log(e.message)
+            res.status(500).json({status : false,error: e.message})
+        }
 
     })
 
